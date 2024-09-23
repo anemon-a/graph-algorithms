@@ -39,9 +39,9 @@ void Graph::AddEdge(int vertex_from, int vertex_to, int weight) {
   }
 }
 
-void Graph::SetGraphType(GraphType type) {
-  graph_type_ = type;
-}
+int Graph::GetCountVertexes() const { return count_vertexes_; }
+
+void Graph::SetGraphType(GraphType type) { graph_type_ = type; }
 
 void Graph::PrintGraph() const {
   for (size_t i = 0; i != count_vertexes_; ++i) {

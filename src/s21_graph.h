@@ -15,6 +15,7 @@ class IGraph {
   virtual int GetEdgeWeight(int vertex_from, int vertex_to) const = 0;
   virtual void AddEdge(int vertex_from, int vertex_to, int weight) = 0;
   virtual void SetGraphType(GraphType type) = 0;
+  virtual int GetCountVertexes() const = 0;
 };
 
 class Graph : IGraph {
@@ -24,11 +25,13 @@ class Graph : IGraph {
   void ExportGraphToDot(std::string filename);
   void PrintGraph() const;
 
-  int GetVertex(std::string vertex) const override;
+  void SetGraphType(GraphType type) override;
   void AddVertex(std::string vertex) override;
-  int GetEdgeWeight(int vertex_from, int vertex_to) const override;
   void AddEdge(int vertex_from, int vertex_to, int weight) override;
-  void SetGraphType(GraphType type);
+
+  int GetCountVertexes() const override;
+  int GetVertex(std::string vertex) const override;
+  int GetEdgeWeight(int vertex_from, int vertex_to) const override;
 
  private:
   GraphType graph_type_;
