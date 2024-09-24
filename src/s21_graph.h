@@ -16,7 +16,7 @@ class IGraph {
   virtual void AddEdge(int vertex_from, int vertex_to, int weight) = 0;
   virtual void SetGraphType(GraphType type) = 0;
   virtual int GetCountVertices() const = 0;
-  virtual std::vector<int> GetNeighboursVertex(int vertex) const = 0;
+  virtual const std::vector<int>& GetNeighbourVertices(int vertex) const = 0;
 };
 
 class Graph : IGraph {
@@ -33,6 +33,7 @@ class Graph : IGraph {
   int GetCountVertices() const override;
   int GetVertex(std::string vertex) const override;
   int GetEdgeWeight(int vertex_from, int vertex_to) const override;
+  const std::vector<int>& GetNeighbourVertices(int vertex) const override;
 
  private:
   GraphType graph_type_;
