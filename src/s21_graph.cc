@@ -15,18 +15,18 @@ void Graph::LoadGraphFromFile(std::string filename) {
 
 void Graph::ExportGraphToDot(std::string filename) {}
 
-int Graph::GetVertex(std::string vertex) const { return vertexes_.at(vertex); }
+int Graph::GetVertex(std::string vertex) const { return vertices_.at(vertex); }
 
 int Graph::GetEdgeWeight(int vertex_from, int vertex_to) const {
   return adjacency_matrix_[vertex_from][vertex_to];
 }
 
 void Graph::AddVertex(std::string vertex) {
-  if (!vertexes_.count(vertex)) {
-    vertexes_[vertex] = count_vertexes_++;
-    std::vector<int> v(count_vertexes_, 0);
+  if (!vertices_.count(vertex)) {
+    vertices_[vertex] = count_vertices_++;
+    std::vector<int> v(count_vertices_, 0);
     adjacency_matrix_.push_back(v);
-    for (size_t i = 0; i != count_vertexes_ - 1; ++i) {
+    for (size_t i = 0; i != count_vertices_ - 1; ++i) {
       adjacency_matrix_[i].push_back(0);
     }
   }
@@ -39,13 +39,13 @@ void Graph::AddEdge(int vertex_from, int vertex_to, int weight) {
   }
 }
 
-int Graph::GetCountVertexes() const { return count_vertexes_; }
+int Graph::GetCountVertices() const { return count_vertices_; }
 
 void Graph::SetGraphType(GraphType type) { graph_type_ = type; }
 
 void Graph::PrintGraph() const {
-  for (size_t i = 0; i != count_vertexes_; ++i) {
-    for (size_t j = 0; j != count_vertexes_; ++j) {
+  for (size_t i = 0; i != count_vertices_; ++i) {
+    for (size_t j = 0; j != count_vertices_; ++j) {
       std::cout << adjacency_matrix_[i][j] << ' ';
     }
     std::cout << std::endl;

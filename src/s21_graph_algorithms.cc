@@ -9,7 +9,7 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
     int v_from = stack.top();
     if (!visited.count(v_from)) {
       visited.insert(v_from);
-      for (size_t v_to = graph.GetCountVertexes()-1; v_to >= 0; v_to--) {
+      for (size_t v_to = graph.GetCountVertices()-1; v_to >= 0; v_to--) {
         if (v_from != v_to) {
           if (graph.GetEdgeWeight(v_from, v_to) && !visited.count(v_to)) {
             stack.push(v_to);
@@ -32,7 +32,7 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
 //   need_visit.insert(start_vertex);
 //   while (unvisited.size() != 0) {
 //     int v_from = unvisited.front();
-//     for (size_t v_to = 0; v_to != graph.GetCountVertexes(); v_to++) {
+//     for (size_t v_to = 0; v_to != graph.GetCountVertices(); v_to++) {
 //       if (v_from != v_to) {
 //         if (graph.GetEdgeWeight(v_from, v_to) && !need_visit.count(v_to)) {
 //           unvisited.push(v_to);
@@ -55,7 +55,7 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
     int v_from = unvisited.front();
     if (!visited.count(v_from)) {
       // стоит ли создать метод чтобы возращал первый элемент графа и последний элемент графа, может быть с помощью итераторов итераторы
-      for (size_t v_to = 0; v_to != graph.GetCountVertexes(); v_to++) {
+      for (size_t v_to = 0; v_to != graph.GetCountVertices(); v_to++) {
         if (v_from != v_to) {
           if (graph.GetEdgeWeight(v_from, v_to)) {
             unvisited.push(v_to);
