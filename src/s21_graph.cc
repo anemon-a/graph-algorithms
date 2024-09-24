@@ -52,6 +52,12 @@ void Graph::PrintGraph() const {
   }
 }
 
-const std::vector<int>& Graph::GetNeighbourVertices(int vertex) const {
-  return adjacency_matrix_[vertex];
+const std::vector<int> Graph::GetNeighbourVertices(int vertex) const {
+  std::vector<int> neighbours;
+  for (size_t i = 0; i != count_vertices_; i++) {
+    if (GetEdgeWeight(vertex, i)) {
+      neighbours.push_back(i);
+    }
+  }
+  return neighbours;
 }

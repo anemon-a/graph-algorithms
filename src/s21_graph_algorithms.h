@@ -3,14 +3,15 @@
 
 #include <queue>
 #include <stack>
-#include <set>
+#include <unordered_set>
 
 #include "s21_graph.h"
 
 class GraphAlgorithms {
  public:
-  std::vector<int> DepthFirstSearch(Graph &graph, int start_vertex);  // stack
-  std::vector<int> BreadthFirstSearch(Graph &graph,
+  GraphAlgorithms() = default;
+  std::vector<int> DepthFirstSearch(IGraph &graph, int start_vertex);  // stack
+  std::vector<int> BreadthFirstSearch(IGraph &graph,
                                       int start_vertex);  // queue
 };
 

@@ -1,7 +1,7 @@
-graph {
-    A -- B [label="3"];
-    A -- C [label="5"];
-    B -- C [label="2"];
-    B -- F [label="4"];
-    C -- D [label="1"];
+graph G {
+    0 -- 1 [label="3"];
+    0 -- 2 [label="5"];
+    0 -- 3 [label="2"];
+    1 -- 2 [label="4"];
+    2 -- 4 [label="1"];
 }
