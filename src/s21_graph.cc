@@ -52,6 +52,6 @@ void Graph::PrintGraph() const {
   }
 }
 
-const std::vector<int>& GetNeighbourVertices(int vertex) const {
+const std::vector<int>& Graph::GetNeighbourVertices(int vertex) const {
   return adjacency_matrix_[vertex];
 }

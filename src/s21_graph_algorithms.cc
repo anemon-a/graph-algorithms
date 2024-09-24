@@ -9,12 +9,11 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(Graph &graph,
     int v_from = stack.top();
     if (!visited.count(v_from)) {
       visited.insert(v_from);
-      for (size_t v_to = graph.GetCountVertices()-1; v_to >= 0; v_to--) {
-        if (v_from != v_to) {
-          if (graph.GetEdgeWeight(v_from, v_to) && !visited.count(v_to)) {
-            stack.push(v_to);
-          }
-        }
+      auto neighbours = graph.GetNeighbourVertices(v_from);
+      for (auto v_to = neighbours.rbegin(); it != neighbours.rend(); it++) {
+        if (graph.GetEdgeWeight(v_from, *v_to) && !visited.count(*v_to)) {
+          stack.push(*v_to);
+        } 
       }
     }
     stack.pop();
@@ -54,12 +53,9 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(Graph &graph,
   while (unvisited.size()) {
     int v_from = unvisited.front();
     if (!visited.count(v_from)) {
-      // стоит ли создать метод чтобы возращал первый элемент графа и последний элемент графа, может быть с помощью итераторов итераторы
-      for (size_t v_to = 0; v_to != graph.GetCountVertices(); v_to++) {
-        if (v_from != v_to) {
-          if (graph.GetEdgeWeight(v_from, v_to)) {
-            unvisited.push(v_to);
-          }
+      for (const int v_to: graph.GetNeighbourVertices(v_from)) {
+        if (graph.GetEdgeWeight(v_from, v_to)) {
+          unvisited.push(v_to);
         }
       }
     }
