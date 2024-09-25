@@ -1,8 +1,16 @@
+CC = g++
+CFLAGS = -std=c++17 -Werror -Wextra -Wall
+TFLAGS = -lgtest -lpthread -lgtest_main
+CFILES = $(wildcard *.cc)
+TFILES = $(wildcard *test.cc)
 
+all: test
+	
+test: $(CFILES)
 
-all:
-	g++ s21_graph.cc test.cc parcer.cc s21_graph_algorithms.cc 
+$(CFILES): 
+
+s21_graph:
+
 clean:
 	rm -rf *.out
-test:
-s21_graph:
