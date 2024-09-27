@@ -21,9 +21,10 @@ class IGraph {
 
 class Graph : public IGraph {
  public:
-  Graph() : count_vertices_(0), adjacency_matrix_(0) {};
+  Graph() : graph_type_(GraphType::GRAPH), count_vertices_(0) {};
+  // Graph(const Graph& graph);
   void LoadGraphFromFile(std::string filename);
-  void ExportGraphToDot(std::string filename);
+  // void ExportGraphToDot(std::string filename);
   void PrintGraph() const;
 
   void SetGraphType(GraphType type) override;

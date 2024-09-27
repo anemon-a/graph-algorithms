@@ -5,7 +5,7 @@ TFLAGS := -lgtest -lpthread -lgtest_main
 
 # Директории
 SRC_DIR := .
-LIB_DIR := lib
+LIB_DIR := .
 TEST_DIR := tests
 
 # Исходные файлы
@@ -20,19 +20,18 @@ TEST_OBJ := $(TEST_SRC:.cc=.o)
 # Библиотеки
 LIBS := $(LIBS_SRC:.cc=.a)
 
-
-TEST_EXE := tests
+TEST_EXE := test
 
 # цель по умолчанию
 all: test
 
 # Сборка тестов (нужно поправить, скорее всего не работает)
 test: $(TEST_OBJ) $(LIBS)
-	$(CC) (CFLAGS) $^ -o $(TEST_EXE) $(TFLAGS)
+	$(CC) $(CFLAGS) $^ -o $(TEST_EXE) $(TFLAGS)
 	./$(TEST_EXE)
 
 # Сборка библиотек
-%.a: %.o:
+%.a: %.o
 	ar rcs $@ $<
 
 # Сборка объектных файлов
@@ -41,4 +40,7 @@ test: $(TEST_OBJ) $(LIBS)
 
 # Очистка
 clean:
-	rm -rf *.o *.a *.gch $(TEST_EXE) *.out *.gcda *.gcno *.gcov *.info
+	rm -rf *.o *.a *.out $(TEST_EXE)
+	rm -rf $(TEST_DIR)/*.o
+
+.PHONY: all tests

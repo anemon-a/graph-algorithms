@@ -13,7 +13,7 @@ class Parser {
  public:
   Parser() = default;
   void ParseGraphFromDot(std::ifstream& in, IGraph& graph);
-  void WriteGraphToDot(std::ofstream& out, const IGraph& graph);
+  // void WriteGraphToDot(std::ofstream& out, const IGraph& graph);
 };
 
 #endif  // PARSER_H_

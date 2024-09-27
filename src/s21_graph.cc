@@ -13,13 +13,15 @@ void Graph::LoadGraphFromFile(std::string filename) {
   in.close();
 }
 
-void Graph::ExportGraphToDot(std::string filename) {}
+// void Graph::ExportGraphToDot(std::string filename) {}
 
 int Graph::GetVertex(std::string vertex) const { return vertices_.at(vertex); }
 
 int Graph::GetEdgeWeight(int vertex_from, int vertex_to) const {
   return adjacency_matrix_[vertex_from][vertex_to];
 }
+
+int Graph::GetCountVertices() const { return count_vertices_; }
 
 void Graph::AddVertex(std::string vertex) {
   if (!vertices_.count(vertex)) {
@@ -38,8 +40,6 @@ void Graph::AddEdge(int vertex_from, int vertex_to, int weight) {
     adjacency_matrix_[vertex_to][vertex_from] = weight;
   }
 }
-
-int Graph::GetCountVertices() const { return count_vertices_; }
 
 void Graph::SetGraphType(GraphType type) { graph_type_ = type; }
 
