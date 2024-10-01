@@ -3,15 +3,15 @@
 
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 class IGraph {
  public:
   enum class GraphType { GRAPH, DIGRAPH };
-  virtual int GetVertexCount() const = 0;
+  virtual size_t GetVertexCount() const = 0;
   virtual int GetEdgeWeight(int vertex_from, int vertex_to) const = 0;
   virtual void AddEdge(int vertex_from, int vertex_to, int weight) = 0;
   virtual void SetGraphType(GraphType type) = 0;
@@ -28,7 +28,7 @@ class Graph : public IGraph {
   void SetGraphType(GraphType type) override;
   void AddEdge(int vertex_from, int vertex_to, int weight) override;
 
-  int GetVertexCount() const override;
+  size_t GetVertexCount() const override;
   int GetEdgeWeight(int vertex_from, int vertex_to) const override;
   const std::vector<int> GetNeighbourVertices(int vertex) const override;
 
@@ -41,7 +41,7 @@ class Graph : public IGraph {
 
   GraphType graph_type_;
   size_t vertex_count_;
-  std::unordered_map<int, int> vertex_index_;
+  std::map<int, int> vertex_index_;
   std::vector<std::vector<int>> adjacency_matrix_;
 };
 

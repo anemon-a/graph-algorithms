@@ -47,7 +47,7 @@ int Graph::GetEdgeWeight(int vertex_from, int vertex_to) const {
   return adjacency_matrix_[vertex_from][vertex_to];
 }
 
-int Graph::GetVertexCount() const { return vertex_count_; }
+size_t Graph::GetVertexCount() const { return vertex_count_; }
 
 void Graph::AddVertex(int vertex) {
   if (!vertex_index_.count(vertex)) {
