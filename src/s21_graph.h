@@ -11,7 +11,7 @@
 class IGraph {
  public:
   enum class GraphType { GRAPH, DIGRAPH };
-  virtual int GetCountVertices() const = 0;
+  virtual int GetVertexCount() const = 0;
   virtual int GetEdgeWeight(int vertex_from, int vertex_to) const = 0;
   virtual void AddEdge(int vertex_from, int vertex_to, int weight) = 0;
   virtual void SetGraphType(GraphType type) = 0;
@@ -28,13 +28,16 @@ class Graph : public IGraph {
   void SetGraphType(GraphType type) override;
   void AddEdge(int vertex_from, int vertex_to, int weight) override;
 
-  int GetCountVertices() const override;
+  int GetVertexCount() const override;
   int GetEdgeWeight(int vertex_from, int vertex_to) const override;
   const std::vector<int> GetNeighbourVertices(int vertex) const override;
 
+  const std::vector<std::vector<int>>& GetAdjacencyMatrix()
+      const;  // Для тестов
+
  private:
-  int GetVertexIndex(int vertex) const;
   void AddVertex(int vertex);
+  int GetVertexIndex(int vertex) const;
 
   GraphType graph_type_;
   size_t vertex_count_;

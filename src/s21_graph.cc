@@ -39,11 +39,15 @@ void Graph::LoadGraphFromFile(std::string filename) {
 
 int Graph::GetVertexIndex(int vertex) const { return vertex_index_.at(vertex); }
 
+const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
+  return adjacency_matrix_;
+}
+
 int Graph::GetEdgeWeight(int vertex_from, int vertex_to) const {
   return adjacency_matrix_[vertex_from][vertex_to];
 }
 
-int Graph::GetCountVertices() const { return vertex_count_; }
+int Graph::GetVertexCount() const { return vertex_count_; }
 
 void Graph::AddVertex(int vertex) {
   if (!vertex_index_.count(vertex)) {
