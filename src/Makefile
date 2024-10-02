@@ -43,4 +43,9 @@ clean:
 	rm -rf *.o *.a *.out $(TEST_EXE)
 	rm -rf $(TEST_DIR)/*.o
 
-.PHONY: all tests
+# Для удобства, потом удалить
+main:
+	g++ tests/main.cc s21_graph.cc s21_graph_algorithms.cc -o main
+	./main
+	
+.PHONY: all tests main

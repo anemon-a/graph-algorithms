@@ -37,17 +37,34 @@ void Graph::LoadGraphFromFile(std::string filename) {
 
 // void Graph::ExportGraphToDot(std::string filename) {}
 
-int Graph::GetVertexIndex(int vertex) const { return vertex_index_.at(vertex); }
-
 const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
   return adjacency_matrix_;
 }
 
+size_t Graph::GetVertexCount() const { return vertex_count_; }
+
 int Graph::GetEdgeWeight(int vertex_from, int vertex_to) const {
-  return adjacency_matrix_[vertex_from][vertex_to];
+  return adjacency_matrix_[vertex_index_.at(vertex_from)]
+                          [vertex_index_.at(vertex_to)];
 }
 
-size_t Graph::GetVertexCount() const { return vertex_count_; }
+const std::vector<int> Graph::GetNeighbourVertices(int vertex) const {
+  std::vector<int> neighbours;
+  for (const auto& [v, i] : vertex_index_) {
+    if (GetEdgeWeight(vertex, v)) {
+      neighbours.push_back(v);
+    }
+  }
+  return neighbours;
+}
+
+const std::vector<int> Graph::GetAllVertices() const {
+  std::vector<int> vertices;
+  for (const auto& [v, i] : vertex_index_) {
+    vertices.push_back(v);
+  }
+  return vertices;
+}
 
 void Graph::AddVertex(int vertex) {
   if (!vertex_index_.count(vertex)) {
@@ -63,10 +80,10 @@ void Graph::AddVertex(int vertex) {
 void Graph::AddEdge(int vertex_from, int vertex_to, int weight) {
   AddVertex(vertex_from);
   AddVertex(vertex_to);
-  adjacency_matrix_[GetVertexIndex(vertex_from)][GetVertexIndex(vertex_to)] =
+  adjacency_matrix_[vertex_index_[vertex_from]][vertex_index_[vertex_to]] =
       weight;
   if (graph_type_ == GraphType::GRAPH) {
-    adjacency_matrix_[GetVertexIndex(vertex_to)][GetVertexIndex(vertex_from)] =
+    adjacency_matrix_[vertex_index_[vertex_to]][vertex_index_[vertex_from]] =
         weight;
   }
 }
@@ -80,15 +97,4 @@ void Graph::PrintGraph() const {
     }
     std::cout << std::endl;
   }
-}
-
-const std::vector<int> Graph::GetNeighbourVertices(int vertex) const {
-  int vertex_index = GetVertexIndex(vertex);
-  std::vector<int> neighbours;
-  for (const auto& [vertex, index] : vertex_index_) {
-    if (GetEdgeWeight(vertex_index, index)) {
-      neighbours.push_back(vertex);
-    }
-  }
-  return neighbours;
 }
