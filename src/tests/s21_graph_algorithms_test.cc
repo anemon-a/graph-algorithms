@@ -113,3 +113,18 @@ TEST(DepthFirstSearch, DigraphTest2) {
     ASSERT_EQ(res1[i], res2[i]);
   }
 }
+TEST(GetShortestPathBetweenVertices, GraphTest1) {
+  Graph g;
+  GraphAlgorithms alg;
+  g.LoadGraphFromFile("dots/graph1.dot");
+  auto res = alg.GetShortestPathBetweenVertices(g, 1, 11);
+  ASSERT_EQ(res, 12);
+}
+
+TEST(GetShortestPathBetweenVertices, GraphTest2) {
+  Graph g;
+  GraphAlgorithms alg;
+  g.LoadGraphFromFile("dots/graph2.dot");
+  auto res = alg.GetShortestPathBetweenVertices(g, 10, 2);
+  ASSERT_EQ(res, 10);
+}

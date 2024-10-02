@@ -4,6 +4,8 @@
 
 TEST(Constructor, default_constructor) { Graph g; }
 
+// Тесты AddEdge, Add vertices, GetEdgeWeight и др. с нулевым графом
+
 class GraphTest : public testing::Test {
  protected:
   GraphTest() {
@@ -13,7 +15,6 @@ class GraphTest : public testing::Test {
   Graph graph0_;
   Graph graph1_;
   Graph graph2_;
-  Graph graph3_;
 };
 
 TEST_F(GraphTest, ZeroGraphTest) { ASSERT_EQ(graph0_.GetVertexCount(), 0); }
@@ -79,5 +80,21 @@ TEST_F(GraphTest, GetNeighbourVertices_Digraph) {
   auto res_v6 = graph2_.GetNeighbourVertices(5);
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(neigbours_v1[i], res_v1[i]);
+  }
+}
+
+TEST_F(GraphTest, GetAllVertices_Graph) {
+  std::vector<int> res_v1 = {1, 2, 3, 4, 5, 6};
+  auto res_v2 = graph1_.GetAllVertices();
+  for (size_t i = 0; i < res_v1.size(); i++) {
+    ASSERT_EQ(res_v1[i], res_v2[i]);
+  }
+}
+
+TEST_F(GraphTest, GetAllVertices_Digraph) {
+  std::vector<int> res_v1 = {1, 2, 3, 4, 5};
+  auto res_v2 = graph2_.GetAllVertices();
+  for (size_t i = 0; i < res_v1.size(); i++) {
+    ASSERT_EQ(res_v1[i], res_v2[i]);
   }
 }
