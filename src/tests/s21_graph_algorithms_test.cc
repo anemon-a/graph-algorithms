@@ -113,6 +113,7 @@ TEST(DepthFirstSearch, DigraphTest2) {
     ASSERT_EQ(res1[i], res2[i]);
   }
 }
+
 TEST(GetShortestPathBetweenVertices, GraphTest1) {
   Graph g;
   GraphAlgorithms alg;
@@ -127,4 +128,20 @@ TEST(GetShortestPathBetweenVertices, GraphTest2) {
   g.LoadGraphFromFile("dots/graph2.dot");
   auto res = alg.GetShortestPathBetweenVertices(g, 10, 2);
   ASSERT_EQ(res, 10);
+}
+
+TEST(GetShortestPathBetweenVertices, DigraphTest1) {
+  Graph g;
+  GraphAlgorithms alg;
+  g.LoadGraphFromFile("dots/digraph1.dot");
+  auto res = alg.GetShortestPathBetweenVertices(g, 5, 4);
+  ASSERT_EQ(res, 10);
+}
+
+TEST(GetShortestPathBetweenVertices, DigraphTest2) {
+  Graph g;
+  GraphAlgorithms alg;
+  g.LoadGraphFromFile("dots/digraph2.dot");
+  auto res = alg.GetShortestPathBetweenVertices(g, 15, 12);
+  ASSERT_EQ(res, std::numeric_limits<int>::max());
 }
