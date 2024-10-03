@@ -1,5 +1,7 @@
 #include "s21_graph_algorithms.h"
 
+#include <optional>
+
 std::vector<int> GraphAlgorithms::DepthFirstSearch(IGraph &graph,
                                                    int start_vertex) {
   std::stack<int> stack;
@@ -50,13 +52,13 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
                                                     int vertex2) {
   std::map<int, int> vertex_distance;
   std::unordered_set<int> unvisited;
-  for (auto vertex : graph.GetAllVertices()) {
-    vertex_distance[vertex] = std::numeric_limits<int>::max();
+  for (const auto &vertex : graph.GetAllVertices()) {
+    vertex_distance[vertex] = infinity;
     unvisited.insert(vertex);
   }
   vertex_distance[vertex1] = 0;
   while (!unvisited.empty()) {
-    int min_distance = std::numeric_limits<int>::max();
+    int min_distance = infinity;
     int min_distance_vertex = -1;
 
     for (const auto &[vertex, distance] : vertex_distance) {
@@ -79,4 +81,42 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
     }
   }
   return vertex_distance[vertex2];
+}
+
+std::vector<std::vector<std::optional<int>>>
+GraphAlgorithms::GetShortestPathsBetweenAllVertices(IGraph &graph) {
+  int vertex_count = graph.GetVertexCount();
+  const auto &vertices = graph.GetAllVertices();
+  std::vector<std::vector<std::optional<int>>> shortest_paths(
+      vertex_count,
+      std::vector<std::optional<int>>(vertex_count, std::nullopt));
+
+  int i = 0, j = 0, weight = 0;
+  for (const auto &v_from : vertices) {
+    j = 0;
+    for (const auto &v_to : vertices) {
+      if (i == j) {
+        shortest_paths[i][j] = 0;
+      } else if ((weight = graph.GetEdgeWeight(v_from, v_to))) {
+        shortest_paths[i][j] = weight;
+      }
+      j++;
+    }
+    i++;
+  }
+  for (int k = 0; k < vertex_count; ++k) {
+    for (int i = 0; i < vertex_count; ++i) {
+      for (int j = 0; j < vertex_count; ++j) {
+        if (shortest_paths[i][k].has_value() &&
+            shortest_paths[k][j].has_value())
+          if (!shortest_paths[i][j].has_value() ||
+              shortest_paths[i][j].value() > (shortest_paths[i][k].value() +
+                                              shortest_paths[k][j].value())) {
+            shortest_paths[i][j] =
+                shortest_paths[i][k].value() + shortest_paths[k][j].value();
+          }
+      }
+    }
+  }
+  return shortest_paths;
 }
