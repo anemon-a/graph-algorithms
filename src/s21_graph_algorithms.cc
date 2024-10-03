@@ -46,9 +46,6 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(IGraph &graph,
   return result;
 }
 
-// int FindLowestDistanceVertex(const std::map<int, int> &distance,
-//                              const std::unordered_set<int> &unvisited) {}
-
 int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
                                                     int vertex2) {
   std::map<int, int> vertex_distance;
@@ -68,6 +65,8 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
         min_distance_vertex = vertex;
       }
     }
+    unvisited.erase(min_distance_vertex);
+    if (min_distance_vertex == -1) break;
 
     for (const auto &neighbour_vertex :
          graph.GetNeighbourVertices(min_distance_vertex)) {
@@ -75,12 +74,9 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
                                                             neighbour_vertex);
 
       if (new_distance < vertex_distance[neighbour_vertex]) {
-        // std::cout << neighbour_vertex << ' ' << new_distance << '\n';
         vertex_distance[neighbour_vertex] = new_distance;
       }
     }
-    unvisited.erase(min_distance_vertex);
   }
-  // std::cout << vertex_distance[vertex2];
   return vertex_distance[vertex2];
 }
