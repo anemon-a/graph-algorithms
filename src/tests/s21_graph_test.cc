@@ -56,13 +56,13 @@ TEST_F(GraphTest, DigraphTest) {
 }
 
 TEST_F(GraphTest, GetNeighbourVertices_Graph) {
-  std::vector<int> neigbours_v1 = {2, 3};
+  std::vector<Vertex> neigbours_v1 = {2, 3};
   auto res_v1 = graph1_.GetNeighbourVertices(1);
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(neigbours_v1[i], res_v1[i]);
   }
 
-  std::vector<int> neigbours_v6 = {2, 3, 5};
+  std::vector<Vertex> neigbours_v6 = {2, 3, 5};
   auto res_v6 = graph1_.GetNeighbourVertices(6);
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(neigbours_v1[i], res_v1[i]);
@@ -70,13 +70,13 @@ TEST_F(GraphTest, GetNeighbourVertices_Graph) {
 }
 
 TEST_F(GraphTest, GetNeighbourVertices_Digraph) {
-  std::vector<int> neigbours_v1 = {2, 3};
+  std::vector<Vertex> neigbours_v1 = {2, 3};
   auto res_v1 = graph2_.GetNeighbourVertices(1);
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(neigbours_v1[i], res_v1[i]);
   }
 
-  std::vector<int> neigbours_v5 = {1};
+  std::vector<Vertex> neigbours_v5 = {1};
   auto res_v6 = graph2_.GetNeighbourVertices(5);
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(neigbours_v1[i], res_v1[i]);
@@ -84,7 +84,7 @@ TEST_F(GraphTest, GetNeighbourVertices_Digraph) {
 }
 
 TEST_F(GraphTest, GetAllVertices_Graph) {
-  std::vector<int> res_v1 = {1, 2, 3, 4, 5, 6};
+  std::vector<Vertex> res_v1 = {1, 2, 3, 4, 5, 6};
   auto res_v2 = graph1_.GetAllVertices();
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(res_v1[i], res_v2[i]);
@@ -92,7 +92,7 @@ TEST_F(GraphTest, GetAllVertices_Graph) {
 }
 
 TEST_F(GraphTest, GetAllVertices_Digraph) {
-  std::vector<int> res_v1 = {1, 2, 3, 4, 5};
+  std::vector<Vertex> res_v1 = {1, 2, 3, 4, 5};
   auto res_v2 = graph2_.GetAllVertices();
   for (size_t i = 0; i < res_v1.size(); i++) {
     ASSERT_EQ(res_v1[i], res_v2[i]);

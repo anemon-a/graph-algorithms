@@ -1,7 +1,6 @@
 #include "s21_graph.h"
 
 void Graph::LoadGraphFromFile(std::string filename) {
-  // Parser parser;
   std::ifstream in(filename);
   std::string line;
 
@@ -19,12 +18,22 @@ void Graph::LoadGraphFromFile(std::string filename) {
     if (((pos = line.find("->")) != std::string::npos) ||
         ((pos = line.find("--")) != std::string::npos)) {
       std::string v1, v2, sep, label;
+      Vertex v_from, v_to;
       int weight = 1;
       std::stringstream ss(line);
 
       ss >> v1 >> sep >> v2 >> label;
-      int v_from = stoi(v1);
-      int v_to = stoi(v2);  // тут может исключенее ебануть, нужно обрабботать
+      if (isdigit(v1[0])) {
+        v_from = std::stoi(v1);
+      } else {
+        v_from = v1;
+      }
+
+      if (isdigit(v2[0])) {
+        v_to = std::stoi(v2);
+      } else {
+        v_to = v2;
+      }
 
       if ((pos = label.find("label=")) != std::string::npos) {
         weight = std::stoi(label.substr(label.find('=') + 2));
@@ -43,13 +52,13 @@ const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
 
 size_t Graph::GetVertexCount() const { return vertex_count_; }
 
-int Graph::GetEdgeWeight(int vertex_from, int vertex_to) const {
+int Graph::GetEdgeWeight(Vertex vertex_from, Vertex vertex_to) const {
   return adjacency_matrix_[vertex_index_.at(vertex_from)]
                           [vertex_index_.at(vertex_to)];
 }
 
-const std::vector<int> Graph::GetNeighbourVertices(int vertex) const {
-  std::vector<int> neighbours;
+const std::vector<Vertex> Graph::GetNeighbourVertices(Vertex vertex) const {
+  std::vector<Vertex> neighbours;
   for (const auto& [v, i] : vertex_index_) {
     if (GetEdgeWeight(vertex, v)) {
       neighbours.push_back(v);
@@ -58,15 +67,15 @@ const std::vector<int> Graph::GetNeighbourVertices(int vertex) const {
   return neighbours;
 }
 
-const std::vector<int> Graph::GetAllVertices() const {
-  std::vector<int> vertices;
+const std::vector<Vertex> Graph::GetAllVertices() const {
+  std::vector<Vertex> vertices;
   for (const auto& [v, i] : vertex_index_) {
     vertices.push_back(v);
   }
   return vertices;
 }
 
-void Graph::AddVertex(int vertex) {
+void Graph::AddVertex(Vertex vertex) {
   if (!vertex_index_.count(vertex)) {
     vertex_index_[vertex] = vertex_count_++;
     std::vector<int> v(vertex_count_, 0);
@@ -77,7 +86,7 @@ void Graph::AddVertex(int vertex) {
   }
 }
 
-void Graph::AddEdge(int vertex_from, int vertex_to, int weight) {
+void Graph::AddEdge(Vertex vertex_from, Vertex vertex_to, int weight) {
   AddVertex(vertex_from);
   AddVertex(vertex_to);
   adjacency_matrix_[vertex_index_[vertex_from]][vertex_index_[vertex_to]] =
