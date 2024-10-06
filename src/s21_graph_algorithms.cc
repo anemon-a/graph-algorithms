@@ -2,14 +2,14 @@
 
 #include <optional>
 
-std::vector<int> GraphAlgorithms::DepthFirstSearch(IGraph &graph,
-                                                   int start_vertex) {
-  std::stack<int> stack;
-  std::vector<int> result;
-  std::unordered_set<int> visited;
+std::vector<Vertex> GraphAlgorithms::DepthFirstSearch(IGraph &graph,
+                                                      Vertex start_vertex) {
+  std::stack<Vertex> stack;
+  std::vector<Vertex> result;
+  std::unordered_set<Vertex> visited;
   stack.push(start_vertex);
   while (!stack.empty()) {
-    int v_from = stack.top();
+    Vertex v_from = stack.top();
     stack.pop();
     if (!visited.count(v_from)) {
       visited.insert(v_from);
@@ -26,16 +26,16 @@ std::vector<int> GraphAlgorithms::DepthFirstSearch(IGraph &graph,
   return result;
 }
 
-std::vector<int> GraphAlgorithms::BreadthFirstSearch(IGraph &graph,
-                                                     int start_vertex) {
-  std::queue<int> queue;
-  std::vector<int> result;
-  std::unordered_set<int> visited;
+std::vector<Vertex> GraphAlgorithms::BreadthFirstSearch(IGraph &graph,
+                                                        Vertex start_vertex) {
+  std::queue<Vertex> queue;
+  std::vector<Vertex> result;
+  std::unordered_set<Vertex> visited;
   queue.push(start_vertex);
   while (!queue.empty()) {
-    int v_from = queue.front();
+    Vertex v_from = queue.front();
     if (!visited.count(v_from)) {
-      for (const int &v_to : graph.GetNeighbourVertices(v_from)) {
+      for (const auto &v_to : graph.GetNeighbourVertices(v_from)) {
         if (!visited.count(v_to)) {
           queue.push(v_to);
         }
@@ -48,10 +48,11 @@ std::vector<int> GraphAlgorithms::BreadthFirstSearch(IGraph &graph,
   return result;
 }
 
-int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
-                                                    int vertex2) {
-  std::map<int, int> vertex_distance;
-  std::unordered_set<int> unvisited;
+int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph,
+                                                    Vertex vertex1,
+                                                    Vertex vertex2) {
+  std::map<Vertex, int> vertex_distance;
+  std::unordered_set<Vertex> unvisited;
   for (const auto &vertex : graph.GetAllVertices()) {
     vertex_distance[vertex] = infinity;
     unvisited.insert(vertex);
@@ -59,7 +60,7 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
   vertex_distance[vertex1] = 0;
   while (!unvisited.empty()) {
     int min_distance = infinity;
-    int min_distance_vertex = -1;
+    Vertex min_distance_vertex = -1;
 
     for (const auto &[vertex, distance] : vertex_distance) {
       if (distance < min_distance && unvisited.count(vertex)) {
@@ -68,7 +69,7 @@ int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph, int vertex1,
       }
     }
     unvisited.erase(min_distance_vertex);
-    if (min_distance_vertex == -1) break;
+    if (min_distance_vertex == Vertex(-1)) break;
 
     for (const auto &neighbour_vertex :
          graph.GetNeighbourVertices(min_distance_vertex)) {

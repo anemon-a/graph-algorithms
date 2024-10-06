@@ -14,10 +14,12 @@ class GraphAlgorithms {
  public:
   GraphAlgorithms() = default;
   ~GraphAlgorithms() = default;
-  std::vector<int> DepthFirstSearch(IGraph &graph, int start_vertex);  // stack
-  std::vector<int> BreadthFirstSearch(IGraph &graph,
-                                      int start_vertex);  // queue
-  int GetShortestPathBetweenVertices(IGraph &graph, int vertex1, int vertex2);
+  std::vector<Vertex> DepthFirstSearch(IGraph &graph,
+                                       Vertex start_vertex);  // stack
+  std::vector<Vertex> BreadthFirstSearch(IGraph &graph,
+                                         Vertex start_vertex);  // queue
+  int GetShortestPathBetweenVertices(IGraph &graph, Vertex vertex1,
+                                     Vertex vertex2);
   std::vector<std::vector<std::optional<int>>>
   GetShortestPathsBetweenAllVertices(IGraph &graph);
 
