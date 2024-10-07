@@ -3,7 +3,7 @@
 #include <optional>
 
 std::vector<Vertex> GraphAlgorithms::DepthFirstSearch(
-    IGraph &graph, const Vertex &start_vertex) {
+    const IGraph &graph, const Vertex &start_vertex) {
   std::stack<Vertex> stack;
   std::vector<Vertex> result;
   std::unordered_set<Vertex> visited;
@@ -27,7 +27,7 @@ std::vector<Vertex> GraphAlgorithms::DepthFirstSearch(
 }
 
 std::vector<Vertex> GraphAlgorithms::BreadthFirstSearch(
-    IGraph &graph, const Vertex &start_vertex) {
+    const IGraph &graph, const Vertex &start_vertex) {
   std::queue<Vertex> queue;
   std::vector<Vertex> result;
   std::unordered_set<Vertex> visited;
@@ -48,44 +48,44 @@ std::vector<Vertex> GraphAlgorithms::BreadthFirstSearch(
   return result;
 }
 
-int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph,
+int GraphAlgorithms::GetShortestPathBetweenVertices(const IGraph &graph,
                                                     const Vertex &vertex1,
                                                     const Vertex &vertex2) {
-  std::map<Vertex, int> vertex_distance;
+  std::unordered_map<Vertex, int> shortest_path;
   std::unordered_set<Vertex> unvisited;
   for (const auto &vertex : graph.GetAllVertices()) {
-    vertex_distance[vertex] = infinity;
+    shortest_path[vertex] = infinity;
     unvisited.insert(vertex);
   }
-  vertex_distance[vertex1] = 0;
+  shortest_path[vertex1] = 0;
   while (!unvisited.empty()) {
-    int min_distance = infinity;
-    Vertex min_distance_vertex = -1;
+    int min_path = infinity;
+    Vertex min_path_vertex = -1;
 
-    for (const auto &[vertex, distance] : vertex_distance) {
-      if (distance < min_distance && unvisited.count(vertex)) {
-        min_distance = distance;
-        min_distance_vertex = vertex;
+    for (const auto &[vertex, distance] : shortest_path) {
+      if (distance < min_path && unvisited.count(vertex)) {
+        min_path = distance;
+        min_path_vertex = vertex;
       }
     }
-    unvisited.erase(min_distance_vertex);
-    if (min_distance_vertex == Vertex(-1)) break;
+    unvisited.erase(min_path_vertex);
+    if (min_path_vertex == Vertex(-1)) break;
 
     for (const auto &neighbour_vertex :
-         graph.GetNeighbourVertices(min_distance_vertex)) {
-      int new_distance = min_distance + graph.GetEdgeWeight(min_distance_vertex,
-                                                            neighbour_vertex);
+         graph.GetNeighbourVertices(min_path_vertex)) {
+      int new_path =
+          min_path + graph.GetEdgeWeight(min_path_vertex, neighbour_vertex);
 
-      if (new_distance < vertex_distance[neighbour_vertex]) {
-        vertex_distance[neighbour_vertex] = new_distance;
+      if (new_path < shortest_path[neighbour_vertex]) {
+        shortest_path[neighbour_vertex] = new_path;
       }
     }
   }
-  return vertex_distance[vertex2];
+  return shortest_path[vertex2];
 }
 
 std::vector<std::vector<std::optional<int>>>
-GraphAlgorithms::GetShortestPathsBetweenAllVertices(IGraph &graph) {
+GraphAlgorithms::GetShortestPathsBetweenAllVertices(const IGraph &graph) {
   int vertex_count = graph.GetVertexCount();
   const auto &vertices = graph.GetAllVertices();
   std::vector<std::vector<std::optional<int>>> shortest_paths(
@@ -120,4 +120,53 @@ GraphAlgorithms::GetShortestPathsBetweenAllVertices(IGraph &graph) {
     }
   }
   return shortest_paths;
+}
+
+std::vector<std::vector<int>> GraphAlgorithms::GetLeastSpanningTree(
+    const IGraph &graph) {
+  int vertex_count = graph.GetVertexCount();
+  std::unordered_map<Vertex, std::pair<Vertex, int>> shortest_edges;
+  std::unordered_map<Vertex, int> vertex_index;
+  std::unordered_set<Vertex> unvisited;
+
+  int index = 0;
+  for (const auto &vertex : graph.GetAllVertices()) {
+    shortest_edges[vertex] = std::pair(vertex, infinity);
+    vertex_index[vertex] = index++;
+    unvisited.insert(vertex);
+  }
+
+  Vertex min_path_vertex = 1;  // из произвольной вершины графа
+  shortest_edges[min_path_vertex] = std::pair(0, 0);
+  while (!unvisited.empty()) {
+    unvisited.erase(min_path_vertex);
+
+    for (const auto &neighbour_vertex :
+         graph.GetNeighbourVertices(min_path_vertex)) {
+      if (unvisited.count(neighbour_vertex)) {
+        int path = shortest_edges[neighbour_vertex].second;
+        int new_path = graph.GetEdgeWeight(min_path_vertex, neighbour_vertex);
+        if (new_path < path) {
+          shortest_edges[neighbour_vertex] =
+              std::pair(min_path_vertex, new_path);
+        }
+      }
+    }
+    int min_path = infinity;
+    for (const auto &[vertex, path] : shortest_edges) {
+      if (unvisited.count(vertex) && (path.second < min_path)) {
+        min_path = path.second;
+        min_path_vertex = vertex;
+      }
+    }
+  }
+
+  std::vector<std::vector<int>> matrix_tree(vertex_count,
+                                            std::vector<int>(vertex_count, 0));
+  for (const auto &[vertex, path] : shortest_edges) {
+    matrix_tree[vertex_index[vertex]][vertex_index[path.first]] = path.second;
+    matrix_tree[vertex_index[path.first]][vertex_index[vertex]] = path.second;
+  }
+
+  return matrix_tree;
 }

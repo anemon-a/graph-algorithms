@@ -10,6 +10,7 @@
 #include <vector>
 
 using Vertex = std::variant<int, std::string>;
+// using Matrix = std::vector<std::vector<int>>;
 
 class IGraph {
  public:
