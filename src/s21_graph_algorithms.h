@@ -15,11 +15,11 @@ class GraphAlgorithms {
   GraphAlgorithms() = default;
   ~GraphAlgorithms() = default;
   std::vector<Vertex> DepthFirstSearch(IGraph &graph,
-                                       Vertex start_vertex);  // stack
+                                       const Vertex &start_vertex);  // stack
   std::vector<Vertex> BreadthFirstSearch(IGraph &graph,
-                                         Vertex start_vertex);  // queue
-  int GetShortestPathBetweenVertices(IGraph &graph, Vertex vertex1,
-                                     Vertex vertex2);
+                                         const Vertex &start_vertex);  // queue
+  int GetShortestPathBetweenVertices(IGraph &graph, const Vertex &vertex1,
+                                     const Vertex &vertex2);
   std::vector<std::vector<std::optional<int>>>
   GetShortestPathsBetweenAllVertices(IGraph &graph);
 

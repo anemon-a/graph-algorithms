@@ -2,8 +2,8 @@
 
 #include <optional>
 
-std::vector<Vertex> GraphAlgorithms::DepthFirstSearch(IGraph &graph,
-                                                      Vertex start_vertex) {
+std::vector<Vertex> GraphAlgorithms::DepthFirstSearch(
+    IGraph &graph, const Vertex &start_vertex) {
   std::stack<Vertex> stack;
   std::vector<Vertex> result;
   std::unordered_set<Vertex> visited;
@@ -26,8 +26,8 @@ std::vector<Vertex> GraphAlgorithms::DepthFirstSearch(IGraph &graph,
   return result;
 }
 
-std::vector<Vertex> GraphAlgorithms::BreadthFirstSearch(IGraph &graph,
-                                                        Vertex start_vertex) {
+std::vector<Vertex> GraphAlgorithms::BreadthFirstSearch(
+    IGraph &graph, const Vertex &start_vertex) {
   std::queue<Vertex> queue;
   std::vector<Vertex> result;
   std::unordered_set<Vertex> visited;
@@ -49,8 +49,8 @@ std::vector<Vertex> GraphAlgorithms::BreadthFirstSearch(IGraph &graph,
 }
 
 int GraphAlgorithms::GetShortestPathBetweenVertices(IGraph &graph,
-                                                    Vertex vertex1,
-                                                    Vertex vertex2) {
+                                                    const Vertex &vertex1,
+                                                    const Vertex &vertex2) {
   std::map<Vertex, int> vertex_distance;
   std::unordered_set<Vertex> unvisited;
   for (const auto &vertex : graph.GetAllVertices()) {

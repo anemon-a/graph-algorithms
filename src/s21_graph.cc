@@ -52,12 +52,18 @@ const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
 
 size_t Graph::GetVertexCount() const { return vertex_count_; }
 
-int Graph::GetEdgeWeight(Vertex vertex_from, Vertex vertex_to) const {
-  return adjacency_matrix_[vertex_index_.at(vertex_from)]
-                          [vertex_index_.at(vertex_to)];
+int Graph::GetVertexIndex(const Vertex& vertex) const {
+  return vertex_index_.at(vertex);
 }
 
-const std::vector<Vertex> Graph::GetNeighbourVertices(Vertex vertex) const {
+int Graph::GetEdgeWeight(const Vertex& vertex_from,
+                         const Vertex& vertex_to) const {
+  return adjacency_matrix_[GetVertexIndex(vertex_from)]
+                          [GetVertexIndex(vertex_to)];
+}
+
+const std::vector<Vertex> Graph::GetNeighbourVertices(
+    const Vertex& vertex) const {
   std::vector<Vertex> neighbours;
   for (const auto& [v, i] : vertex_index_) {
     if (GetEdgeWeight(vertex, v)) {
@@ -75,7 +81,7 @@ const std::vector<Vertex> Graph::GetAllVertices() const {
   return vertices;
 }
 
-void Graph::AddVertex(Vertex vertex) {
+void Graph::AddVertex(const Vertex& vertex) {
   if (!vertex_index_.count(vertex)) {
     vertex_index_[vertex] = vertex_count_++;
     std::vector<int> v(vertex_count_, 0);
@@ -86,13 +92,14 @@ void Graph::AddVertex(Vertex vertex) {
   }
 }
 
-void Graph::AddEdge(Vertex vertex_from, Vertex vertex_to, int weight) {
+void Graph::AddEdge(const Vertex& vertex_from, const Vertex& vertex_to,
+                    int weight) {
   AddVertex(vertex_from);
   AddVertex(vertex_to);
-  adjacency_matrix_[vertex_index_[vertex_from]][vertex_index_[vertex_to]] =
+  adjacency_matrix_[GetVertexIndex(vertex_from)][GetVertexIndex(vertex_to)] =
       weight;
   if (graph_type_ == GraphType::GRAPH) {
-    adjacency_matrix_[vertex_index_[vertex_to]][vertex_index_[vertex_from]] =
+    adjacency_matrix_[GetVertexIndex(vertex_to)][GetVertexIndex(vertex_from)] =
         weight;
   }
 }
