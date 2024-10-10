@@ -1,4 +1,5 @@
-#include "../s21_graph_algorithms.h"
+#include "../graph/s21_graph.h"
+#include "../graph_algorithms/s21_graph_algorithms.h"
 
 int main() {
   Graph g;

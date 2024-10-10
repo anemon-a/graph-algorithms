@@ -5,30 +5,8 @@
 #include <iostream>
 #include <map>
 #include <sstream>
-#include <string>
-#include <variant>
-#include <vector>
 
-using Vertex = std::variant<int, std::string>;
-// using Matrix = std::vector<std::vector<int>>;
-
-class IGraph {
- public:
-  enum class GraphType { GRAPH, DIGRAPH };
-
-  virtual size_t GetVertexCount() const = 0;
-  virtual void SetGraphType(GraphType type) = 0;
-
-  virtual int GetEdgeWeight(const Vertex& vertex_from,
-                            const Vertex& vertex_to) const = 0;
-
-  virtual void AddEdge(const Vertex& vertex_from, const Vertex& vertex_to,
-                       int weight) = 0;
-
-  virtual const std::vector<Vertex> GetNeighbourVertices(
-      const Vertex& vertex) const = 0;
-  virtual const std::vector<Vertex> GetAllVertices() const = 0;
-};
+#include "s21_graph_interface.h"
 
 class Graph : public IGraph {
  public:

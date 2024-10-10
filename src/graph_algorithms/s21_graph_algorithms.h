@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "s21_graph.h"
+#include "../graph/s21_graph_interface.h"
 
 class GraphAlgorithms {
  public:

@@ -1,6 +1,8 @@
-#include "../s21_graph_algorithms.h"
+#include "../graph_algorithms/s21_graph_algorithms.h"
 
 #include <gtest/gtest.h>
+
+#include "../graph/s21_graph.h"
 
 TEST(BreadthFirstSearch, GraphTest1) {
   Graph g;

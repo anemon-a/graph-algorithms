@@ -5,11 +5,11 @@ TFLAGS := -lgtest -lpthread -lgtest_main
 
 # Директории
 SRC_DIR := .
-LIB_DIR := .
+LIB_DIR := graph graph_algorithms
 TEST_DIR := tests
 
 # Исходные файлы
-LIBS_SRC := $(wildcard $(LIB_DIR)/*.cc)
+LIBS_SRC := $(foreach dir,$(LIB_DIR),$(wildcard $(dir)/*.cc))
 TEST_SRC := $(wildcard $(TEST_DIR)/*test.cc)
 # CCFILES := $(wildcard $(SRC_DIR)/*.cc)
 
@@ -42,6 +42,7 @@ test: $(TEST_OBJ) $(LIBS)
 clean:
 	rm -rf *.o *.a *.out $(TEST_EXE)
 	rm -rf $(TEST_DIR)/*.o
+	$(foreach dir,$(LIB_DIR), rm -rf $(dir)/*.a)
 
 # Для удобства, потом удалить
 main:

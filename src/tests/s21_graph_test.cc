@@ -1,4 +1,4 @@
-#include "../s21_graph.h"
+#include "../graph/s21_graph.h"
 
 #include <gtest/gtest.h>
 
