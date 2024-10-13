@@ -10,7 +10,7 @@
 
 class Graph : public IGraph {
  public:
-  Graph() : graph_type_(GraphType::GRAPH), vertex_count_(0) {};
+  Graph() : graph_type_(GraphType::kGraph), vertex_count_(0) {};
   void LoadGraphFromFile(std::string filename);
   // void ExportGraphToDot(std::string filename);
   void PrintGraph() const;

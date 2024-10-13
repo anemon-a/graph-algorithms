@@ -11,9 +11,9 @@ void Graph::LoadGraphFromFile(std::string filename) {
   while (std::getline(in, line) && line != "}") {
     size_t pos = 0;
     if (line.find("digraph") != std::string::npos) {
-      SetGraphType(IGraph::GraphType::DIGRAPH);
+      SetGraphType(IGraph::GraphType::kDigraph);
     } else if (line.find("graph") != std::string::npos) {
-      SetGraphType(IGraph::GraphType::GRAPH);
+      SetGraphType(IGraph::GraphType::kGraph);
     }
     if (((pos = line.find("->")) != std::string::npos) ||
         ((pos = line.find("--")) != std::string::npos)) {
@@ -98,7 +98,7 @@ void Graph::AddEdge(const Vertex& vertex_from, const Vertex& vertex_to,
   AddVertex(vertex_to);
   adjacency_matrix_[GetVertexIndex(vertex_from)][GetVertexIndex(vertex_to)] =
       weight;
-  if (graph_type_ == GraphType::GRAPH) {
+  if (graph_type_ == GraphType::kGraph) {
     adjacency_matrix_[GetVertexIndex(vertex_to)][GetVertexIndex(vertex_from)] =
         weight;
   }

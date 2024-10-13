@@ -5,6 +5,7 @@
 TEST(Constructor, default_constructor) { Graph g; }
 
 // Тесты AddEdge, Add vertices, GetEdgeWeight и др. с нулевым графом
+// Тесты на обработку исклбчений
 
 class GraphTest : public testing::Test {
  protected:

@@ -9,7 +9,7 @@ using Vertex = std::variant<int, std::string>;
 
 class IGraph {
  public:
-  enum class GraphType { GRAPH, DIGRAPH };
+  enum class GraphType { kGraph, kDigraph };
 
   virtual size_t GetVertexCount() const = 0;
   virtual void SetGraphType(GraphType type) = 0;

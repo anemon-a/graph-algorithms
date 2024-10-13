@@ -5,7 +5,7 @@ TFLAGS := -lgtest -lpthread -lgtest_main
 
 # Директории
 SRC_DIR := .
-LIB_DIR := graph graph_algorithms
+LIB_DIR := graph graph_algorithms containers
 TEST_DIR := tests
 
 # Исходные файлы
@@ -40,13 +40,13 @@ test: $(TEST_OBJ) $(LIBS)
 
 # Очистка
 clean:
-	rm -rf *.o *.a *.out $(TEST_EXE)
+	rm -rf *.o *.a *.out $(TEST_EXE) ./main
 	rm -rf $(TEST_DIR)/*.o
 	$(foreach dir,$(LIB_DIR), rm -rf $(dir)/*.a)
 
 # Для удобства, потом удалить
 main:
-	g++ tests/main.cc s21_graph.cc s21_graph_algorithms.cc -o main
+	g++ main.cc console.cc graph/s21_graph.cc graph_algorithms/s21_graph_algorithms.cc  -o main
 	./main
 	
 .PHONY: all tests main
