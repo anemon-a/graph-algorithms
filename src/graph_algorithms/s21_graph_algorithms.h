@@ -10,6 +10,8 @@
 
 #include "../graph/s21_graph_interface.h"
 
+namespace s21 {
+
 class GraphAlgorithms {
  public:
   GraphAlgorithms() = default;
@@ -27,5 +29,6 @@ class GraphAlgorithms {
 
   const int infinity = std::numeric_limits<int>::max();
 };
+}  // namespace s21
 
 #endif  // S21_GRAPH_ALGORITHMS_H_

@@ -2,10 +2,7 @@
 
 #include <gtest/gtest.h>
 
-TEST(Constructor, default_constructor) { Graph g; }
-
-// Тесты AddEdge, Add vertices, GetEdgeWeight и др. с нулевым графом
-// Тесты на обработку исклбчений
+namespace s21 {
 
 class GraphTest : public testing::Test {
  protected:
@@ -20,7 +17,15 @@ class GraphTest : public testing::Test {
 
 TEST_F(GraphTest, ZeroGraphTest) { ASSERT_EQ(graph0_.GetVertexCount(), 0); }
 
-TEST_F(GraphTest, GraphTest) {
+TEST_F(GraphTest, AddEgde) {
+  graph0_.AddEdge(1, 2, 3);
+  ASSERT_EQ(graph0_.GetVertexCount(), 2);
+  ASSERT_EQ(graph0_.GetEdgeWeight(1, 2), 3);
+  ASSERT_THROW(graph0_.GetEdgeWeight(1, 3), std::out_of_range);
+  ASSERT_THROW(graph0_.GetNeighbourVertices(3), std::out_of_range);
+}
+
+TEST_F(GraphTest, GraphTest1) {
   const std::vector<std::vector<size_t>> g1 = {
       {0, 2, 3, 0, 0, 0}, {2, 0, 0, 1, 0, 3}, {3, 0, 0, 0, 4, 5},
       {0, 1, 0, 0, 0, 0}, {0, 0, 4, 0, 0, 2}, {0, 3, 5, 0, 2, 0}};
@@ -99,3 +104,5 @@ TEST_F(GraphTest, GetAllVertices_Digraph) {
     ASSERT_EQ(res_v1[i], res_v2[i]);
   }
 }
+
+}  // namespace s21

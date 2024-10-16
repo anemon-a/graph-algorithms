@@ -4,6 +4,8 @@
 
 #include "../graph/s21_graph.h"
 
+using namespace s21;
+
 TEST(BreadthFirstSearch, GraphTest1) {
   Graph g;
   GraphAlgorithms alg;
@@ -17,6 +19,7 @@ TEST(BreadthFirstSearch, GraphTest1) {
     ASSERT_EQ(res1[i], res2[i]);
   }
 }
+
 TEST(BreadthFirstSearch, GraphTest2) {
   Graph g;
   GraphAlgorithms alg;
@@ -24,15 +27,19 @@ TEST(BreadthFirstSearch, GraphTest2) {
 
   std::vector<Vertex> res1 = {6, 5, 7, 4, 8, 3, 9, 2, 10, 1, 11};
   auto res2 = alg.BreadthFirstSearch(g, 6);
-  // for (size_t i = 0; i < res1.size(); i++) {
-  //   std::cout << res2[i] << ' ';
-  // }
 
   ASSERT_EQ(res1.size(), res2.size());
   for (size_t i = 0; i < res1.size(); i++) {
     ASSERT_EQ(res1[i], res2[i]);
   }
 }
+
+// TEST(BreadthFirstSearch, GraphTestExceptions) {
+//   Graph g;
+//   GraphAlgorithms alg;
+
+//   auto res2 = alg.BreadthFirstSearch(g, 6);
+// }
 
 TEST(BreadthFirstSearch, DigraphTest1) {
   Graph g;

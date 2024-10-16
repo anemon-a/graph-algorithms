@@ -1,6 +1,14 @@
 #include "s21_graph.h"
 
-void Graph::LoadGraphFromFile(std::string filename) {
+std::string s21::VertexToString(const Vertex& vertex) {
+  if (std::holds_alternative<int>(vertex)) {
+    return std::to_string(std::get<int>(vertex));
+  } else {
+    return std::get<std::string>(vertex);
+  }
+}
+
+void s21::Graph::LoadGraphFromFile(std::string filename) {
   std::ifstream in(filename);
   std::string line;
 
@@ -44,28 +52,32 @@ void Graph::LoadGraphFromFile(std::string filename) {
   in.close();
 }
 
-// void Graph::ExportGraphToDot(std::string filename) {}
+// void s21::Graph::ExportGraphToDot(std::string filename) {}
 
-const std::vector<std::vector<int>>& Graph::GetAdjacencyMatrix() const {
+const std::vector<std::vector<int>>& s21::Graph::GetAdjacencyMatrix() const {
   return adjacency_matrix_;
 }
 
-size_t Graph::GetVertexCount() const { return vertex_count_; }
+size_t s21::Graph::GetVertexCount() const { return vertex_count_; }
 
-int Graph::GetVertexIndex(const Vertex& vertex) const {
-  return vertex_index_.at(vertex);
+int s21::Graph::GetIndex(const Vertex& vertex) const {
+  auto it = vertex_index_map_.find(vertex);
+  if (it == vertex_index_map_.end()) {
+    throw std::out_of_range("Vertex " + VertexToString(vertex) +
+                            " not found in the graph");
+  }
+  return it->second;
 }
 
-int Graph::GetEdgeWeight(const Vertex& vertex_from,
-                         const Vertex& vertex_to) const {
-  return adjacency_matrix_[GetVertexIndex(vertex_from)]
-                          [GetVertexIndex(vertex_to)];
+int s21::Graph::GetEdgeWeight(const Vertex& vertex_from,
+                              const Vertex& vertex_to) const {
+  return adjacency_matrix_[GetIndex(vertex_from)][GetIndex(vertex_to)];
 }
 
-const std::vector<Vertex> Graph::GetNeighbourVertices(
+const std::vector<Vertex> s21::Graph::GetNeighbourVertices(
     const Vertex& vertex) const {
   std::vector<Vertex> neighbours;
-  for (const auto& [v, i] : vertex_index_) {
+  for (const auto& [v, i] : vertex_index_map_) {
     if (GetEdgeWeight(vertex, v)) {
       neighbours.push_back(v);
     }
@@ -73,17 +85,17 @@ const std::vector<Vertex> Graph::GetNeighbourVertices(
   return neighbours;
 }
 
-const std::vector<Vertex> Graph::GetAllVertices() const {
+const std::vector<Vertex> s21::Graph::GetAllVertices() const {
   std::vector<Vertex> vertices;
-  for (const auto& [v, i] : vertex_index_) {
+  for (const auto& [v, i] : vertex_index_map_) {
     vertices.push_back(v);
   }
   return vertices;
 }
 
-void Graph::AddVertex(const Vertex& vertex) {
-  if (!vertex_index_.count(vertex)) {
-    vertex_index_[vertex] = vertex_count_++;
+void s21::Graph::AddVertex(const Vertex& vertex) {
+  if (!vertex_index_map_.count(vertex)) {
+    vertex_index_map_[vertex] = vertex_count_++;
     std::vector<int> v(vertex_count_, 0);
     adjacency_matrix_.push_back(v);
     for (size_t i = 0; i != vertex_count_ - 1; ++i) {
@@ -92,21 +104,19 @@ void Graph::AddVertex(const Vertex& vertex) {
   }
 }
 
-void Graph::AddEdge(const Vertex& vertex_from, const Vertex& vertex_to,
-                    int weight) {
+void s21::Graph::AddEdge(const Vertex& vertex_from, const Vertex& vertex_to,
+                         int weight) {
   AddVertex(vertex_from);
   AddVertex(vertex_to);
-  adjacency_matrix_[GetVertexIndex(vertex_from)][GetVertexIndex(vertex_to)] =
-      weight;
+  adjacency_matrix_[GetIndex(vertex_from)][GetIndex(vertex_to)] = weight;
   if (graph_type_ == GraphType::kGraph) {
-    adjacency_matrix_[GetVertexIndex(vertex_to)][GetVertexIndex(vertex_from)] =
-        weight;
+    adjacency_matrix_[GetIndex(vertex_to)][GetIndex(vertex_from)] = weight;
   }
 }
 
-void Graph::SetGraphType(GraphType type) { graph_type_ = type; }
+void s21::Graph::SetGraphType(GraphType type) { graph_type_ = type; }
 
-void Graph::PrintGraph() const {
+void s21::Graph::PrintGraph() const {
   for (size_t i = 0; i != vertex_count_; ++i) {
     for (size_t j = 0; j != vertex_count_; ++j) {
       std::cout << adjacency_matrix_[i][j] << ' ';

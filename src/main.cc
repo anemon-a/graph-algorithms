@@ -1,7 +1,7 @@
 #include "console.h"
 
 int main() {
-  Console c;
+  s21::Console c;
   c.Run();
   return 0;
 }

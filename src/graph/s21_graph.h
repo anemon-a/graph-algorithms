@@ -8,14 +8,17 @@
 
 #include "s21_graph_interface.h"
 
+namespace s21 {
+
 class Graph : public IGraph {
  public:
+  friend class GraphTest;
   Graph() : graph_type_(GraphType::kGraph), vertex_count_(0) {};
+
   void LoadGraphFromFile(std::string filename);
   // void ExportGraphToDot(std::string filename);
   void PrintGraph() const;
 
-  void SetGraphType(GraphType type) override;
   void AddEdge(const Vertex& vertex_from, const Vertex& vertex_to,
                int weight) override;
 
@@ -30,13 +33,18 @@ class Graph : public IGraph {
       const;  // Для тестов
 
  private:
+  void SetGraphType(GraphType type);
   void AddVertex(const Vertex& vertex);
-  int GetVertexIndex(const Vertex& vertex) const;
+  int GetIndex(const Vertex& vertex) const;
 
   GraphType graph_type_;
   size_t vertex_count_;
-  std::map<Vertex, int> vertex_index_;
+  std::map<Vertex, int> vertex_index_map_;
   std::vector<std::vector<int>> adjacency_matrix_;
 };
+
+std::string VertexToString(const Vertex& vertex);
+
+}  // namespace s21
 
 #endif  // S21_GRAPH_H_
